@@ -28,8 +28,8 @@
 		<string>15.0.0</string>
 		<key>com.apple.kpi.unsupported</key>
 		<string>15.0.0</string>
-		<key>org.sctp.kpi.sctpsupport</key>
-		<string>15.0.0</string>
+		<key>com.smsrelay.kpi.sctpsupport</key>
+		<string>13.0.0</string>
 	</dict>
 </dict>
 </plist>

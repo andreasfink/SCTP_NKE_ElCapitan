@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist SYSTEM "file://localhost/System/Library/DTDs/PropertyList.dtd">
+<plist version="0.9">
+<dict>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+	<key>Description</key>
+	<string>SCTP</string>
+	<key>Messages</key>
+	<dict>
+		<key>start</key>
+		<string>Starting SCTP Driver</string>
+		<key>stop</key>
+		<string>Stopping SCTP Driver</string>
+	</dict>
+	<key>OrderPreference</key>
+	<string>Late</string>
+	<key>Provides</key>
+	<array>
+		<string>SCTP</string>
+	</array>
+    <key>Requires</key>
+    <array>
+        <string>Resolver</string>
+    </array>
+</dict>
+</plist>
