@@ -5,19 +5,23 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>${EXECUTABLE_NAME}</string>
+	<string>SCTP</string>
 	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<string>com.messagemover.sctp</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.3</string>
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>6.3.0</string>
+	<string>15.2.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>6.3.0</string>
+	<string>15.2.0</string>
+	<key>CFBundleSupportedPlatforms</key>
+	<array>
+		<string>MacOSX</string>
+	</array>
 	<key>OSBundleLibraries</key>
 	<dict>
 		<key>com.apple.kpi.bsd</key>
@@ -28,8 +32,8 @@
 		<string>15.0.0</string>
 		<key>com.apple.kpi.unsupported</key>
 		<string>15.0.0</string>
-		<key>com.smsrelay.kpi.sctpsupport</key>
-		<string>13.0.0</string>
+		<key>com.messagemover.sctpsupport</key>
+		<string>15.0.0</string>
 	</dict>
 </dict>
 </plist>

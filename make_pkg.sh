@@ -14,7 +14,7 @@ echo VERSION=$VERSION
 echo OUTPUT_FILE="${OUTPUT_FILE}"
 rm -rf "${PKG_INSTALL_ROOT}"
 mkdir -p "${PKG_INSTALL_ROOT}"/Library/LaunchDaemons
-cp com.smsrelay.sctp.plist  "${PKG_INSTALL_ROOT}"/Library/LaunchDaemons
+cp com.messagemover.sctp.plist  "${PKG_INSTALL_ROOT}"/Library/LaunchDaemons
 
 xcodebuild -target SCTP -configuration Debug
 cd build/Debug
@@ -22,12 +22,9 @@ find SCTP.kext | cpio -pdmuv ../../"${PKG_INSTALL_ROOT}/Library/Extensions/"
 cd ../..
 MAIN_DIR=`pwd`
 mkdir -p "${PKG_INSTALL_ROOT}/Library/Extensions"
-pushd "${PKG_INSTALL_ROOT}/Library/Extensions"
+pushd "${PKG_INSTALL_ROOT}/"
 tar -xvzf "${MAIN_DIR}/sctp-support.tar.gz"
 popd
-
-/usr/bin/codesign --force --sign "${SIGNING_KEY_KEXT}"  "${PKG_INSTALL_ROOT}/Library/Extensions/SCTP.kext"
-/usr/bin/codesign --force --sign "${SIGNING_KEY_KEXT}"  "${PKG_INSTALL_ROOT}/Library/Extensions/SCTPSupport.kext"
 
 xcodebuild -target libsctp -configuration Debug
 
@@ -46,14 +43,11 @@ chmod 755 								"${PKG_INSTALL_ROOT}/Library/Application Support/SCTP/startup_
 cat >> 									"${PKG_INSTALL_ROOT}/Library/Frameworks/sctp.framework//Versions/A/Modules/module.modulemap" << --eof--
 framework module sctp {
   umbrella header "sctp.h"
-
-/usr/bin/codesign --force --sign "${SIGNING_KEY_LIBRARY}"  "${PKG_INSTALL_ROOT}${DYLIB_DIR}/${DYLIB_BIN}"
-=======
   export *
   module * { export * }
 }
 --eof--
-cat >> 									"${PKG_INSTALL_ROOT}/Library/Frameworks/sctp.framework/Versions/A/Resources/Info.plist" << --eof--
+cat >> "${PKG_INSTALL_ROOT}/Library/Frameworks/sctp.framework/Versions/A/Resources/Info.plist" << --eof--
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -65,7 +59,7 @@ cat >> 									"${PKG_INSTALL_ROOT}/Library/Frameworks/sctp.framework/Versions/
 	<key>CFBundleExecutable</key>
 	<string>sctp</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.smsrelay.sctp</string>
+	<string>com.messagemover.sctp</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -104,11 +98,22 @@ ln -s Versions/Current/Modules Modules
 ln -s Versions/Current/Resources Resources
 ln -s Versions/Current/sctp sctp
 popd
+
+install_name_tool "${PKG_INSTALL_ROOT}"/Library/Frameworks/sctp.framework/Versions/A/sctp -change /usr/lib/libsctp.dylib @rpath/sctp.framework/Versions/A/sctp
+install_name_tool "${PKG_INSTALL_ROOT}"/Library/Frameworks/sctp.framework/Versions/A/sctp -change /usr/local/lib/libsctp.dylib @rpath/sctp.framework/Versions/A/sctp
+
+CREQ1="=designated => anchor apple generic and identifier \"com.smsrelay.sctp.kpi.sctpsupport\"  and ((cert leaf[field.1.2.840.113635.100.6.1.9] exists) or ( certificate 1[field.1.2.840.113635.100.6.1.18] exists and certificate leaf[field.1.2.840.113635.100.6.1.13] exists and certificate leaf[subject.OU] = \"WMTUF4B7XX\"))"
+CREQ2="=designated => anchor apple generic and identifier \"com.smsrelay.sctp.kpi.sctp\"  and ((cert leaf[field.1.2.840.113635.100.6.1.9] exists) or ( certificate 1[field.1.2.840.113635.100.6.1.18] exists and certificate leaf[field.1.2.840.113635.100.6.1.13] exists and certificate leaf[subject.OU] = \"WMTUF4B7XX\"))"
+
+/usr/bin/codesign --force --sign "${SIGNING_KEY_KEXT}" --requirements "$CREQ1" "${PKG_INSTALL_ROOT}/Library/Extensions/SCTPSupport.kext"
+/usr/bin/codesign --force --sign "${SIGNING_KEY_KEXT}" --requirements "$CREQ2" "${PKG_INSTALL_ROOT}/Library/Extensions/SCTP.kext"
+
+
 /usr/bin/codesign --force --sign "${SIGNING_KEY_LIBRARY}"  "${PKG_INSTALL_ROOT}"/Library/Frameworks/sctp.framework/Versions/A/sctp
 cp com.smsrelay.sctp.plist "${PKG_INSTALL_ROOT}/Library/LaunchDaemons/com.smsrelay.sctp.plist"
 
 #$PKGMAKER --root $PKG_INSTALL_ROOT/  --out "$FILE" --id org.sctp.nke.sctp --version '"$LONGVER"' --title SCTP --install-to /  --verbose --root-volume-only --discard-forks --certificate "$SIGNING_KEY_INSTALLER"
-PKG_IDENTIFIER=com.smsrelay.sctp.nke.sctp
+PKG_IDENTIFIER=com.messagemover.sctp
 pkgbuild --root "${PKG_INSTALL_ROOT}" --install-location /  --sign  "${SIGNING_KEY_INSTALLER}"  --version "${VERSION}" --identifier "${PKG_IDENTIFIER}"    --ownership recommended "${OUTPUT_FILE}"
 
 
