@@ -1,0 +1,55 @@
+#!/bin/bash 
+#
+# : The full path to the installation package.
+# : The full path to the installation destination.
+# : The mountpoint of the destination volume.
+# : The root directory for the current System folder.
+#
+# (c) Copyright 2006-2013 Andreas Fink <andreas@fink.org>
+
+mkdir -p /var/log/sctp
+chown root:wheel /var/log/sctp
+
+chown -R root:wheel "/Library/Extensions/SCTP.kext"
+chmod 755 "/Library/Extensions/SCTP.kext"
+chmod 644 "/Library/Extensions/SCTP.kext/Contents"
+chmod 644 "/Library/Extensions/SCTP.kext/Contents/Info.plist"
+chmod 755 "/Library/Extensions/SCTP.kext/Contents/MacOS"
+chmod 644 "/Library/Extensions/SCTP.kext/Contents/MacOS/SCTP"
+chmod 644 "/Library/Extensions/SCTP.kext/Contents/Info-template.plist"
+chmod 644 "/Library/Extensions/SCTP.kext/Contents/Info.plist"
+
+chmod 755 "/Library/Extensions/SCTP.kext/Contents/_CodeSignature"
+chmod 644 "/Library/Extensions/SCTP.kext/Contents/_CodeSignature/CodeDirectory"
+chmod 644 "/Library/Extensions/SCTP.kext/Contents/_CodeSignature/CodeRequirements"
+chmod 644 "/Library/Extensions/SCTP.kext/Contents/_CodeSignature/CodeResources"
+chmod 644 "/Library/Extensions/SCTP.kext/Contents/_CodeSignature/CodeSignature"
+
+
+chown -R root:wheel "/Library/Extensions/SCTPSupport.kext"
+chmod 755  "/Library/Extensions/SCTPSupport.kext"
+chmod 755  "/Library/Extensions/SCTPSupport.kext/Contents"
+chmod 644  "/Library/Extensions/SCTPSupport.kext/Contents/Info-template.plist"
+chmod 755  "/Library/Extensions/SCTPSupport.kext/Contents/MacOS"
+chmod 644  "/Library/Extensions/SCTPSupport.kext/Contents/MacOS/SCTPSupport"
+
+chmod 755 "/Library/Extensions/SCTPSupport.kext/Contents/_CodeSignature"
+chmod 644 "/Library/Extensions/SCTPSupport.kext/Contents/_CodeSignature/CodeDirectory"
+chmod 644 "/Library/Extensions/SCTPSupport.kext/Contents/_CodeSignature/CodeRequirements"
+chmod 644 "/Library/Extensions/SCTPSupport.kext/Contents/_CodeSignature/CodeResources"
+chmod 644 "/Library/Extensions/SCTPSupport.kext/Contents/_CodeSignature/CodeSignature"
+
+
+chown -R root:wheel "/Library/StartupItems/SCTP"
+chmod 755  "/Library/StartupItems/SCTP"
+chmod 755  "/Library/StartupItems/SCTP/SCTP"
+chmod 644  "/Library/StartupItems/SCTP/StartupParameters.plist"
+
+EXECFILE="/Library/StartupItems/SCTP/SCTP"
+
+if [ -f "${EXECFILE}" ]
+then
+	chmod 755 "${EXECFILE}"
+	"${EXECFILE}" FirstStart 2>&1 > /var/log/sctp/install.log
+fi
+echo "Postupdate  run on `date`">> /var/log/sctp/install.log

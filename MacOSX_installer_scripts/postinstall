@@ -1,0 +1,20 @@
+#!/bin/bash 
+#
+# : The full path to the installation package.
+# : The full path to the installation destination.
+# : The mountpoint of the destination volume.
+# : The root directory for the current System folder.
+#
+# (c) Copyright 2006-2013 Andreas Fink <andreas@fink.org>
+
+mkdir -p /var/log/sctp
+chown root:wheel /var/log/sctp
+
+EXECFILE="/Library/Application Support/SCTP/startup_script.sh"
+
+if [ -f "${EXECFILE}" ]
+then
+	chmod 755 "${EXECFILE}"
+	"${EXECFILE}" FirstStart 2>&1 > /var/log/sctp/install.log
+fi
+echo "Postinstall run on `date`">> /var/log/sctp/install.log
