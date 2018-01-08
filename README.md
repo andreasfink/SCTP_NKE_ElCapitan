@@ -14,7 +14,7 @@ The FreeBSD kernel stack and the SCTP NKE for Mac OS X supports:
 * The stream reconfiguration extension as specified in [RFC6525](https://tools.ietf.org/html/rfc6525).
 * The UDP encapsulation as specified in [RFC6951](https://tools.ietf.org/html/rfc6951).
 * The SACK immediately extension as specified in [RFC7053](https://tools.ietf.org/html/rfc7053).
-* The quick failover extension as specified in [draft-ietf-tsvwg-sctp-failover](https://tools.ietf.org/html/draft-ietf-tsvwg-sctp-failover).
+* The quick failover extension as specified in [RFC7829](https://tools.ietf.org/html/rfc7829).
 * The stream scheduler and user message interleaving extension partially as specified in [draft-ietf-tsvwg-sctp-ndata](https://tools.ietf.org/html/draft-ietf-tsvwg-sctp-ndata).
 * The NAT support partially as specified in [draft-ietf-tsvwg-natsupp](https://tools.ietf.org/html/draft-ietf-tsvwg-natsupp).
 * The non-renegable SACK extension as specified in [draft-tuexen-tsvwg-sctp-multipath](https://tools.ietf.org/html/draft-tuexen-tsvwg-sctp-mutipath).
@@ -23,18 +23,43 @@ The FreeBSD kernel stack and the SCTP NKE for Mac OS X supports:
 ## Note about using Unsigned Kernel Extensions
 When using Mac OS X 10.11, you can't load unsinged kernel extensions without disabling the System Integrity Protection.
 See [Apple's documentation](https://developer.apple.com/library/mac/documentation/Security/Conceptual/System_Integrity_Protection_Guide/ConfiguringSystemIntegrityProtection/ConfiguringSystemIntegrityProtection.html) on how to disable it.
-I'm currently not providing an signed NKE, since I don't have the necessary certificate.
+I'm currently not providing a signed NKE, since I don't have the necessary certificate.
 
 ## Installation
 Currently there is no installer provided. Therefore the following manual steps are required.
+You can download a disk image containing all files at [SCTP_NKE_ElCapitan_Install_01.dmg](https://github.com/sctplab/SCTP_NKE_ElCapitan/releases/download/v01/SCTP_NKE_ElCapitan_Install_01.dmg).
 
-### Installation of the SCTP Support KEXT
+### Prerequisites
+It is assumed that the comand line tools are installed. This can be done
+executing
+```
+xcode-select --install
+```
 
-### Installation of the SCTP KEXT
+### Installation of KEXTs
+Execute the following commands:
+```
+sudo cp -R /Volumes/SCTP_NKE_ElCapitan_01/SCTPSupport.kext /Library/Extensions
+sudo cp -R /Volumes/SCTP_NKE_ElCapitan_01/SCTP.kext /Library/Extensions
+```
+The first extension is needed to export additional symbols from the kernel.
+The second extension contains the SCTP relevant code.
 
 ### Installation of Support Files
+Execute the following commands:
+```
+sudo cp /Volumes/SCTP_NKE_ElCapitan_01/socket.h /usr/include/sys/
+sudo cp /Volumes/SCTP_NKE_ElCapitan_01/sctp.h /usr/include/netinet/
+sudo cp /Volumes/SCTP_NKE_ElCapitan_01/sctp_uio.h /usr/include/netinet/
+sudo cp /Volumes/SCTP_NKE_ElCapitan_01/libsctp.dylib /usr/lib/
+```
+The first command changes an existing file by adding a definition for
+`MSG_NOTIFICATION`. The other commands add additional files.
 
 ## Using the SCTP KEXT
+Since the NKE's are not signed, you need the disable the System Integrity
+Protection as described above.
+
 ### Loading the SCTP KEXT
 You can load the SCTP kext by executing in a shell
 ```

@@ -1,4 +1,6 @@
 /*-
+ * SPDX-License-Identifier: BSD-3-Clause
+ *
  * Copyright (c) 2006-2007, by Cisco Systems, Inc. All rights reserved.
  * Copyright (c) 2008-2012, by Randall Stewart. All rights reserved.
  * Copyright (c) 2008-2012, by Michael Tuexen. All rights reserved.
@@ -416,11 +418,6 @@ typedef struct rtentry	sctp_rtentry_t;
 #define INP_CHECK_SOCKAF(so, af) (INP_SOCKAF(so) == af)
 #endif
 
-/* Future zero copy wakeup/send  function */
-#define SCTP_ZERO_COPY_EVENT(inp, so)
-/* This is re-pulse ourselves for sendbuf */
-#define SCTP_ZERO_COPY_SENDQ_EVENT(inp, so)
-
 /*
  * SCTP protocol specific mbuf flags.
  */
@@ -538,5 +535,7 @@ errno_t sctp_address_monitor_start(void);
 void sctp_address_monitor_stop(void);
 void sctp_delayed_startup(void *);
 #define SCTP_PROCESS_STRUCT thread_t
+
+#define SCTP_IS_LISTENING(inp) ((inp->sctp_flags & SCTP_PCB_FLAGS_ACCEPTING) != 0)
 
 #endif

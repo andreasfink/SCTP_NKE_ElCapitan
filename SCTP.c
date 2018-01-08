@@ -74,10 +74,7 @@ extern struct sysctl_oid sysctl__net_inet_sctp_reconfig_enable;
 extern struct sysctl_oid sysctl__net_inet_sctp_nrsack_enable;
 extern struct sysctl_oid sysctl__net_inet_sctp_pktdrop_enable;
 extern struct sysctl_oid sysctl__net_inet_sctp_fr_maxburst;
-extern struct sysctl_oid sysctl__net_inet_sctp_strict_sacks;
-#if !defined(SCTP_WITH_NO_CSUM)
 extern struct sysctl_oid sysctl__net_inet_sctp_loopback_nocsum;
-#endif
 extern struct sysctl_oid sysctl__net_inet_sctp_peer_chkoh;
 extern struct sysctl_oid sysctl__net_inet_sctp_maxburst;
 extern struct sysctl_oid sysctl__net_inet_sctp_maxchunks;
@@ -107,7 +104,6 @@ extern struct sysctl_oid sysctl__net_inet_sctp_max_chained_mbufs;
 extern struct sysctl_oid sysctl__net_inet_sctp_do_sctp_drain;
 extern struct sysctl_oid sysctl__net_inet_sctp_hb_max_burst;
 extern struct sysctl_oid sysctl__net_inet_sctp_abort_at_limit;
-extern struct sysctl_oid sysctl__net_inet_sctp_strict_data_order;
 extern struct sysctl_oid sysctl__net_inet_sctp_min_residual;
 extern struct sysctl_oid sysctl__net_inet_sctp_max_retran_chunk;
 extern struct sysctl_oid sysctl__net_inet_sctp_log_level;
@@ -197,11 +193,11 @@ SCTP_start(kmod_info_t * ki __attribute__((unused)), void * d __attribute__((unu
 	old_pr6  = ip6_protox[IPPROTO_SCTP];
 #endif
 
-	bzero(&sctp4_seqpacket, sizeof(struct protosw));
-	bzero(&sctp4_stream,    sizeof(struct protosw));
+	memset(&sctp4_seqpacket, 0, sizeof(struct protosw));
+	memset(&sctp4_stream,    0, sizeof(struct protosw));
 #ifdef INET6
-	bzero(&sctp6_seqpacket, sizeof(struct protosw));
-	bzero(&sctp6_stream,    sizeof(struct protosw));
+	memset(&sctp6_seqpacket, 0, sizeof(struct protosw));
+	memset(&sctp6_stream,    0, sizeof(struct protosw));
 #endif
 
 	sctp4_seqpacket.pr_type      = SOCK_SEQPACKET;
@@ -381,10 +377,7 @@ SCTP_start(kmod_info_t * ki __attribute__((unused)), void * d __attribute__((unu
 	sysctl_register_oid(&sysctl__net_inet_sctp_nrsack_enable);
 	sysctl_register_oid(&sysctl__net_inet_sctp_pktdrop_enable);
 	sysctl_register_oid(&sysctl__net_inet_sctp_fr_maxburst);
-	sysctl_register_oid(&sysctl__net_inet_sctp_strict_sacks);
-#if !defined(SCTP_WITH_NO_CSUM)
 	sysctl_register_oid(&sysctl__net_inet_sctp_loopback_nocsum);
-#endif
 	sysctl_register_oid(&sysctl__net_inet_sctp_peer_chkoh);
 	sysctl_register_oid(&sysctl__net_inet_sctp_maxburst);
 	sysctl_register_oid(&sysctl__net_inet_sctp_maxchunks);
@@ -414,7 +407,6 @@ SCTP_start(kmod_info_t * ki __attribute__((unused)), void * d __attribute__((unu
 	sysctl_register_oid(&sysctl__net_inet_sctp_do_sctp_drain);
 	sysctl_register_oid(&sysctl__net_inet_sctp_hb_max_burst);
 	sysctl_register_oid(&sysctl__net_inet_sctp_abort_at_limit);
-	sysctl_register_oid(&sysctl__net_inet_sctp_strict_data_order);
 	sysctl_register_oid(&sysctl__net_inet_sctp_min_residual);
 	sysctl_register_oid(&sysctl__net_inet_sctp_max_retran_chunk);
 	sysctl_register_oid(&sysctl__net_inet_sctp_log_level);
@@ -531,10 +523,7 @@ SCTP_stop(kmod_info_t * ki __attribute__((unused)), void * d __attribute__((unus
 	sysctl_unregister_oid(&sysctl__net_inet_sctp_nrsack_enable);
 	sysctl_unregister_oid(&sysctl__net_inet_sctp_pktdrop_enable);
 	sysctl_unregister_oid(&sysctl__net_inet_sctp_fr_maxburst);
-	sysctl_unregister_oid(&sysctl__net_inet_sctp_strict_sacks);
-#if !defined(SCTP_WITH_NO_CSUM)
 	sysctl_unregister_oid(&sysctl__net_inet_sctp_loopback_nocsum);
-#endif
 	sysctl_unregister_oid(&sysctl__net_inet_sctp_peer_chkoh);
 	sysctl_unregister_oid(&sysctl__net_inet_sctp_maxburst);
 	sysctl_unregister_oid(&sysctl__net_inet_sctp_maxchunks);
@@ -564,7 +553,6 @@ SCTP_stop(kmod_info_t * ki __attribute__((unused)), void * d __attribute__((unus
 	sysctl_unregister_oid(&sysctl__net_inet_sctp_do_sctp_drain);
 	sysctl_unregister_oid(&sysctl__net_inet_sctp_hb_max_burst);
 	sysctl_unregister_oid(&sysctl__net_inet_sctp_abort_at_limit);
-	sysctl_unregister_oid(&sysctl__net_inet_sctp_strict_data_order);
 	sysctl_unregister_oid(&sysctl__net_inet_sctp_min_residual);
 	sysctl_unregister_oid(&sysctl__net_inet_sctp_max_retran_chunk);
 	sysctl_unregister_oid(&sysctl__net_inet_sctp_log_level);
