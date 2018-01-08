@@ -1,9 +1,15 @@
-# SCTP NKE for Mac OS X 10.11 (El Capitan)
+# SCTP NKE for Mac OS X 10.13 (High Sierra)
 
 The sources are based on the SCTP implementation of the FreeBSD kernel modified to work
 within the Mac OS X kernel infrastructure as a network kernel extension. This allows
 the dynamic loading and unloading of the module without rebooting the operating system.
 
+---
+
+This repository is based of sctplab/SCTP_ElCapitan with patches for HighSierra and a nice installer.
+The library is installed as MacOS X framework in /Library/Frameworks.
+---
+_
 ## Supported Specifications
 The FreeBSD kernel stack and the SCTP NKE for Mac OS X supports:
 * The base protocol as specified in [RFC4960](https://tools.ietf.org/html/rfc4960).
