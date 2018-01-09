@@ -5,12 +5,12 @@
 # : The mountpoint of the destination volume.
 # : The root directory for the current System folder.
 #
-# (c) Copyright 2006-2013 Andreas Fink <andreas@fink.org>
+# (c) Copyright 2006-2018 Andreas Fink <andreas@fink.org>
 
 mkdir -p /var/log/sctp
 chown root:wheel /var/log/sctp
 
-EXECFILE="/Library/Application Support/SCTP/startup_script.sh"
+EXECFILE="/Library/Application Support/me.fink.sctp/startup_script.sh"
 
 if [ -f "${EXECFILE}" ]
 then

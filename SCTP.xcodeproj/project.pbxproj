@@ -158,6 +158,7 @@
 		50C2D18410787EE30088259C /* sctp_macosx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sctp_macosx.c; path = netinet/sctp_macosx.c; sourceTree = "<group>"; };
 		50C2D1A210789C180088259C /* proc_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = proc_internal.h; path = sys/proc_internal.h; sourceTree = "<group>"; };
 		50C2D1A310789C180088259C /* systm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = systm.h; path = sys/systm.h; sourceTree = "<group>"; };
+		A684E39A2004BD8B00B08670 /* SCTP copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "SCTP copy-Info.plist"; path = "/Users/afink/development/git/macos_sctp_nke/SCTP copy-Info.plist"; sourceTree = "<absolute>"; };
 		D2AAC0630554660B00DB518D /* libsctp.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libsctp.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		E06F9AD8128BF43700401138 /* sctp_ss_functions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sctp_ss_functions.c; path = netinet/sctp_ss_functions.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -186,6 +187,7 @@
 				08FB7795FE84155DC02AAC07 /* Source */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
 				50BAFEB0107391E50005425A /* SCTP-Info.plist */,
+				A684E39A2004BD8B00B08670 /* SCTP copy-Info.plist */,
 			);
 			name = SCTP;
 			sourceTree = "<group>";
@@ -435,6 +437,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0910;
+				TargetAttributes = {
+					50BAFEAE107391E50005425A = {
+						DevelopmentTeam = 2GSNWPNR77;
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 1DEB914E08733D8E0010E9CD /* Build configuration list for PBXProject "SCTP" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -571,6 +579,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DEPLOYMENT_LOCATION = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -591,7 +600,7 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.13;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -616,6 +625,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DEPLOYMENT_LOCATION = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -634,7 +644,7 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.13;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
@@ -644,9 +654,12 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = NO;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 2GSNWPNR77;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -676,17 +689,19 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)";
 				INFOPLIST_FILE = "SCTP-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MODULE_NAME = org.sctp.kext.SCTP;
 				MODULE_START = SCTP_start;
 				MODULE_STOP = SCTP_stop;
 				MODULE_VERSION = 6.0.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-Wno-address-of-packed-member";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.sctp.nke.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = me.fink.sctp;
 				PRODUCT_NAME = SCTP;
-				SDKROOT = macosx;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx10.13;
 				USER_HEADER_SEARCH_PATHS = "";
-				VALID_ARCHS = "i386 x86_64";
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Debug;
@@ -696,9 +711,12 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = NO;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 2GSNWPNR77;
 				GCC_MODEL_TUNING = G5;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					HAVE_SCTP_PEELOFF_SOCKOPT,
@@ -724,15 +742,18 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)";
 				INFOPLIST_FILE = "SCTP-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MODULE_NAME = org.sctp.kext.SCTP;
 				MODULE_START = SCTP_start;
 				MODULE_STOP = SCTP_stop;
 				MODULE_VERSION = 6.0.0;
 				OTHER_CFLAGS = "-Wno-address-of-packed-member";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.sctp.nke.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = me.fink.sctp;
 				PRODUCT_NAME = SCTP;
-				SDKROOT = macosx;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx10.13;
 				USER_HEADER_SEARCH_PATHS = "";
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = kext;
 				ZERO_LINK = NO;
 			};

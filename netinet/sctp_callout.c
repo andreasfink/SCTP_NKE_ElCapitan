@@ -32,6 +32,8 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <net/if_dl.h>
+
 #if defined(__Userspace__)
 #include <sys/types.h>
 #if !defined (__Userspace_os_Windows)

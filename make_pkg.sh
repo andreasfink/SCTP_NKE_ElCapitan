@@ -1,46 +1,46 @@
 #!/bin/bash
 
-PKG_INSTALL_ROOT="MacOSX_installer_root"
-PKG_INSTALL_RESOURCES="MacOSX_installer_resources"
-PKG_INSTALL_SCRIPTS="MacOSX_installer_scripts"
-SIGNING_KEY_INSTALLER="Developer ID Installer: SMSRelay AG"
-SIGNING_KEY_LIBRARY="Developer ID Application: SMSRelay AG"
-SIGNING_KEY_KEXT="Developer ID Application: SMSRelay AG"
+SRC_ROOT=`pwd`
+PKG_INSTALL_ROOT="${SRC_ROOT}/MacOSX_installer_root"
+PKG_INSTALL_RESOURCES="${SRC_ROOT}/MacOSX_installer_resources"
+PKG_INSTALL_SCRIPTS="${SRC_ROOT}/MacOSX_installer_scripts"
+SIGNING_KEY_INSTALLER="Developer ID Installer: Andreas Fink (2GSNWPNR77)"
+SIGNING_KEY_LIBRARY="Developer ID Application: Andreas Fink (2GSNWPNR77)"
+SIGNING_KEY_KEXT="Developer ID Application: Andreas Fink (2GSNWPNR77)"
 
 VERSION="`cat VERSION`"
 BUILDDATE=`date +%Y%m%d%H%M`
-OUTPUT_FILE=SCTP_ElCapitan_${BUILDDATE}.pkg
+OUTPUT_FILE=SCTP_HighSierra_${BUILDDATE}.pkg
 echo VERSION=$VERSION
 echo OUTPUT_FILE="${OUTPUT_FILE}"
 rm -rf "${PKG_INSTALL_ROOT}"
 mkdir -p "${PKG_INSTALL_ROOT}"/Library/LaunchDaemons
-cp com.messagemover.sctp.plist  "${PKG_INSTALL_ROOT}"/Library/LaunchDaemons
+cp me.fink.sctp.plist  "${PKG_INSTALL_ROOT}"/Library/LaunchDaemons
 
 xcodebuild -target SCTP -configuration Debug
-cd build/Debug
-find SCTP.kext | cpio -pdmuv ../../"${PKG_INSTALL_ROOT}/Library/Extensions/"
-cd ../..
-MAIN_DIR=`pwd`
+pushd /tmp/SCTP.dst/Library/Extensions/
+find SCTP.kext | cpio -pdmuv "${PKG_INSTALL_ROOT}/Library/Extensions/"
+popd
+
 mkdir -p "${PKG_INSTALL_ROOT}/Library/Extensions"
 pushd "${PKG_INSTALL_ROOT}/"
-tar -xvzf "${MAIN_DIR}/sctp-support.tar.gz"
+tar -xvzf "${SRC_ROOT}/sctp-support.tar.gz"
 popd
 
 xcodebuild -target libsctp -configuration Debug
-
-install_name_tool -id @rpath/sctp.framework/Versions/A/sctp build/Debug/libsctp.dylib
+install_name_tool -id @rpath/sctp.framework/Versions/A/sctp /tmp/SCTP.dst/usr/local/lib/libsctp.dylib
 
 mkdir -p "${PKG_INSTALL_ROOT}/Library/Frameworks/sctp.framework/Versions/A/Resources"
 mkdir -p "${PKG_INSTALL_ROOT}/Library/Frameworks/sctp.framework/Versions/A/Modules"
 mkdir -p "${PKG_INSTALL_ROOT}/Library/Frameworks/sctp.framework/Versions/A/Headers"
 mkdir -p "${PKG_INSTALL_ROOT}/Library/LaunchDaemons/"
-mkdir -p "${PKG_INSTALL_ROOT}/Library/Application Support/SCTP/"
+mkdir -p "${PKG_INSTALL_ROOT}/Library/Application Support/me.fink.sctp/"
 
-cp build/Debug/libsctp.dylib 			"${PKG_INSTALL_ROOT}/Library/Frameworks/sctp.framework/Versions/A/sctp"
+cp /tmp/SCTP.dst/usr/local/lib/libsctp.dylib 	"${PKG_INSTALL_ROOT}/Library/Frameworks/sctp.framework/Versions/A/sctp"
 cp netinet/sctp.h netinet/sctp_uio.h 	"${PKG_INSTALL_ROOT}/Library/Frameworks/sctp.framework/Versions/A/Headers"
-cp startup_script.sh					"${PKG_INSTALL_ROOT}/Library/Application Support/SCTP/startup_script.sh"
-chmod 755 								"${PKG_INSTALL_ROOT}/Library/Application Support/SCTP/startup_script.sh"
-cat >> 									"${PKG_INSTALL_ROOT}/Library/Frameworks/sctp.framework//Versions/A/Modules/module.modulemap" << --eof--
+cp startup_script.sh					"${PKG_INSTALL_ROOT}/Library/Application Support/me.fink.sctp/startup_script.sh"
+chmod 755 								"${PKG_INSTALL_ROOT}/Library/Application Support/me.fink.sctp/startup_script.sh"
+cat >> 									"${PKG_INSTALL_ROOT}/Library/Frameworks/sctp.framework/Versions/A/Modules/module.modulemap" << --eof--
 framework module sctp {
   umbrella header "sctp.h"
   export *
@@ -59,7 +59,7 @@ cat >> "${PKG_INSTALL_ROOT}/Library/Frameworks/sctp.framework/Versions/A/Resourc
 	<key>CFBundleExecutable</key>
 	<string>sctp</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.messagemover.sctp</string>
+	<string>me.fink.sctp</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -81,7 +81,7 @@ cat >> "${PKG_INSTALL_ROOT}/Library/Frameworks/sctp.framework/Versions/A/Resourc
 	<key>DTSDKBuild</key>
 	<string>14D125</string>
 	<key>DTSDKName</key>
-	<string>macosx10.10</string>
+	<string>macosx10.13</string>
 	<key>DTXcode</key>
 	<string>0632</string>
 	<key>DTXcodeBuild</key>
@@ -102,18 +102,18 @@ popd
 install_name_tool "${PKG_INSTALL_ROOT}"/Library/Frameworks/sctp.framework/Versions/A/sctp -change /usr/lib/libsctp.dylib @rpath/sctp.framework/Versions/A/sctp
 install_name_tool "${PKG_INSTALL_ROOT}"/Library/Frameworks/sctp.framework/Versions/A/sctp -change /usr/local/lib/libsctp.dylib @rpath/sctp.framework/Versions/A/sctp
 
-CREQ1="=designated => anchor apple generic and identifier \"com.smsrelay.sctp.kpi.sctpsupport\"  and ((cert leaf[field.1.2.840.113635.100.6.1.9] exists) or ( certificate 1[field.1.2.840.113635.100.6.1.18] exists and certificate leaf[field.1.2.840.113635.100.6.1.13] exists and certificate leaf[subject.OU] = \"WMTUF4B7XX\"))"
-CREQ2="=designated => anchor apple generic and identifier \"com.smsrelay.sctp.kpi.sctp\"  and ((cert leaf[field.1.2.840.113635.100.6.1.9] exists) or ( certificate 1[field.1.2.840.113635.100.6.1.18] exists and certificate leaf[field.1.2.840.113635.100.6.1.13] exists and certificate leaf[subject.OU] = \"WMTUF4B7XX\"))"
+CREQ1="=designated => anchor apple generic and identifier \"me.fink.sctp.kpi.sctpsupport\"  and ((cert leaf[field.1.2.840.113635.100.6.1.9] exists) or ( certificate 1[field.1.2.840.113635.100.6.1.18] exists and certificate leaf[field.1.2.840.113635.100.6.1.13] exists and certificate leaf[subject.OU] = \"WMTUF4B7XX\"))"
+CREQ2="=designated => anchor apple generic and identifier \"me.fink.sctp.kpi.sctp\"  and ((cert leaf[field.1.2.840.113635.100.6.1.9] exists) or ( certificate 1[field.1.2.840.113635.100.6.1.18] exists and certificate leaf[field.1.2.840.113635.100.6.1.13] exists and certificate leaf[subject.OU] = \"WMTUF4B7XX\"))"
 
 /usr/bin/codesign --force --sign "${SIGNING_KEY_KEXT}" --requirements "$CREQ1" "${PKG_INSTALL_ROOT}/Library/Extensions/SCTPSupport.kext"
 /usr/bin/codesign --force --sign "${SIGNING_KEY_KEXT}" --requirements "$CREQ2" "${PKG_INSTALL_ROOT}/Library/Extensions/SCTP.kext"
 
 
 /usr/bin/codesign --force --sign "${SIGNING_KEY_LIBRARY}"  "${PKG_INSTALL_ROOT}"/Library/Frameworks/sctp.framework/Versions/A/sctp
-cp com.smsrelay.sctp.plist "${PKG_INSTALL_ROOT}/Library/LaunchDaemons/com.smsrelay.sctp.plist"
+cp me.fink.sctp.plist "${PKG_INSTALL_ROOT}/Library/LaunchDaemons/me.fink.sctp.plist"
 
 #$PKGMAKER --root $PKG_INSTALL_ROOT/  --out "$FILE" --id org.sctp.nke.sctp --version '"$LONGVER"' --title SCTP --install-to /  --verbose --root-volume-only --discard-forks --certificate "$SIGNING_KEY_INSTALLER"
-PKG_IDENTIFIER=com.messagemover.sctp
+PKG_IDENTIFIER=me.fink.sctp
 pkgbuild --root "${PKG_INSTALL_ROOT}" --install-location /  --sign  "${SIGNING_KEY_INSTALLER}"  --version "${VERSION}" --identifier "${PKG_IDENTIFIER}"    --ownership recommended "${OUTPUT_FILE}"
 
 

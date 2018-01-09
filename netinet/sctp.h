@@ -614,7 +614,7 @@ struct sctp_error_auth_invalid_hmac {
 #endif
 #undef SCTP_PACKED
 
-#include <netinet/sctp_uio.h>
+#include "sctp_uio.h"
 
 /* This dictates the size of the packet
  * collection buffer. This only applies

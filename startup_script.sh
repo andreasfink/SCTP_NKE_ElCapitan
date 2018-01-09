@@ -1,8 +1,11 @@
+#!/bin/bash
+# startup script to launch sctp
+
 #!/bin/sh
 #
 ##
 # SCTP Startup Script
-# (c) Copyright 2016 Andreas Fink <andreas@fink.org>
+# (c) Copyright 2018 Andreas Fink <andreas@fink.org>
 # Maveriks Version
 ##
 
@@ -10,7 +13,7 @@ mkdir -p /var/log/sctp
 LOG="/var/log/sctp/start.log"
 
 echo "----------" > "$LOG"
-echo "/Library/Application Support/SCTP/startup_script.sh is being called at `date`" >> "$LOG"
+echo "/Library/Application Support/me.fink.sctp/startup_script.sh is being called at `date`" >> "$LOG"
 echo "Input Parameters: $@"  >> "$LOG"
 echo "Calling /etc/rc.common" >> "$LOG"
 . /etc/rc.common
@@ -22,8 +25,8 @@ StatusService()
 
 PrepareService ()
 {
-	/usr/sbin/kextcache -e -a x86_64
-	launchctl load -w /Library/LaunchDaemons/com.messagemover.sctp.plist
+       	/usr/sbin/kextcache -e -a x86_64
+       	launchctl load -w /Library/LaunchDaemons/me.fink.sctp.plist
 }
 
 FirstStart ()
@@ -67,7 +70,7 @@ if( [ "$1" = "start" ] )
 then
     StartService
 fi
-i
+
 if( [ "$1" = "start-and-wait" ] )
 then
     StartService
