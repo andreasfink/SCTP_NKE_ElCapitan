@@ -616,6 +616,10 @@ struct sctp_error_auth_invalid_hmac {
 
 #include "sctp_uio.h"
 
+#ifndef MSG_NOTIFICATION
+#define MSG_NOTIFICATION 0x80000        /* notification message */
+#endif
+
 /* This dictates the size of the packet
  * collection buffer. This only applies
  * if SCTP_PACKET_LOGGING is enabled in
