@@ -34,7 +34,7 @@
 
 #ifdef __FreeBSD__
 #include <sys/cdefs.h>
-__FBSDID("$FreeBSD: head/sys/netinet/sctputil.c 326163 2017-11-24 12:18:48Z tuexen $");
+__FBSDID("$FreeBSD: head/sys/netinet/sctputil.c 328028 2018-01-15 21:59:20Z tuexen $");
 #endif
 
 #include <netinet/sctp_os.h>
@@ -51,7 +51,7 @@ __FBSDID("$FreeBSD: head/sys/netinet/sctputil.c 326163 2017-11-24 12:18:48Z tuex
 #include <netinet/sctp_output.h>
 #include <netinet/sctp_uio.h>
 #include <netinet/sctp_timer.h>
-#include <netinet/sctp_indata.h>/* for sctp_deliver_data() */
+#include <netinet/sctp_indata.h>
 #include <netinet/sctp_auth.h>
 #include <netinet/sctp_asconf.h>
 #include <netinet/sctp_bsd_addr.h>
@@ -6693,7 +6693,8 @@ sctp_m_free(struct mbuf *m)
 	return (m_free(m));
 }
 
-void sctp_m_freem(struct mbuf *mb)
+void
+sctp_m_freem(struct mbuf *mb)
 {
 	while (mb != NULL)
 		mb = sctp_m_free(mb);
@@ -6800,8 +6801,8 @@ sctp_soreceive(	struct socket *so,
 	if (flagsp != NULL) {
 		flags = *flagsp;
 	} else {
-	     flags = 0;
-    }
+		flags = 0;
+	}
 	error = sctp_sorecvmsg(so, uio, mp0, from, fromlen, &flags,
 	    (struct sctp_sndrcvinfo *)&sinfo, filling_sinfo);
 	if (flagsp != NULL) {
@@ -6809,13 +6810,10 @@ sctp_soreceive(	struct socket *so,
 	}
 	if (controlp != NULL) {
 		/* copy back the sinfo in a CMSG format */
-		if ((filling_sinfo) && ((flags & MSG_NOTIFICATION) == 0))
-		{
+		if (filling_sinfo && ((flags & MSG_NOTIFICATION) == 0)) {
 			*controlp = sctp_build_ctl_nchunk(inp,
 			                                  (struct sctp_sndrcvinfo *)&sinfo);
-		}
-		else
-		{
+		} else {
 			*controlp = NULL;
 		}
 	}
