@@ -10,6 +10,7 @@
 mkdir -p /var/log/sctp
 chown root:wheel /var/log/sctp
 
+
 EXECFILE="/Library/Application Support/me.fink.sctp/startup_script.sh"
 
 if [ -f "${EXECFILE}" ]
