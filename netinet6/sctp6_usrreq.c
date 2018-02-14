@@ -424,10 +424,11 @@ sctp6_notify(struct sctp_inpcb *inp,
 	}
 }
 
-#if defined(__APPLE__) && !defined(APPLE_LEOPARD) && !defined(APPLE_SNOWLEOPARD) && !defined(APPLE_LION) && !defined(APPLE_MOUNTAINLION) && !defined(APPLE_ELCAPITAN) && !defined(APPLE_HIGHSIERRA)
-void sctp6_ctlinput(int cmd, struct sockaddr *pktdst, void *d, struct ifnet *ifp SCTP_UNUSED)
+#if defined(__APPLE__) && !defined(APPLE_LEOPARD) && !defined(APPLE_SNOWLEOPARD) && !defined(APPLE_LION) && !defined(APPLE_MOUNTAINLION) && !defined(APPLE_ELCAPITAN)
+void
+sctp6_ctlinput(int cmd, struct sockaddr *pktdst, void *d, struct ifnet *ifp SCTP_UNUSED)
 #else
-void sctp6_ctlinput(int cmd, struct sockaddr *pktdst, void *d)
+sctp6_ctlinput(int cmd, struct sockaddr *pktdst, void *d)
 #endif
 {
 	struct ip6ctlparam *ip6cp;

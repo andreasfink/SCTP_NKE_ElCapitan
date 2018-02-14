@@ -76,7 +76,7 @@ void sctp6_ctlinput __P((int, struct sockaddr *, void *));
 #else
 int sctp6_output(struct sctp_inpcb *, struct mbuf *, struct sockaddr *,
                  struct mbuf *, struct proc *);
-#if defined(__APPLE__) && !defined(APPLE_LEOPARD) && !defined(APPLE_SNOWLEOPARD) && !defined(APPLE_LION) && !defined(APPLE_MOUNTAINLION) && !defined(APPLE_ELCAPITAN) && !defined(APPLE_HIGHSIERRA)
+#if defined(__APPLE__) && !defined(APPLE_LEOPARD) && !defined(APPLE_SNOWLEOPARD) && !defined(APPLE_LION) && !defined(APPLE_MOUNTAINLION) && !defined(APPLE_ELCAPITAN)
 void sctp6_ctlinput(int, struct sockaddr *, void *, struct ifnet * SCTP_UNUSED);
 #else
 void sctp6_ctlinput(int, struct sockaddr *, void *);

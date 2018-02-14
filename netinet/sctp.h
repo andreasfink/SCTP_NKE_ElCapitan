@@ -54,6 +54,13 @@ __FBSDID("$FreeBSD: head/sys/netinet/sctp.h 323657 2017-09-16 21:26:06Z tuexen $
 #define SCTP_PACKED
 #endif
 
+
+#include "sctp_uio.h"
+
+#ifndef MSG_NOTIFICATION
+#define MSG_NOTIFICATION 0x80000        /* notification message */
+#endif
+
 /*
  * SCTP protocol - RFC4960.
  */
@@ -614,13 +621,6 @@ struct sctp_error_auth_invalid_hmac {
 #endif
 #undef SCTP_PACKED
 
-#include "sctp_uio.h"
-
-#ifndef MSG_NOTIFICATION
-#define MSG_NOTIFICATION 0x80000        /* notification message */
-#endif
-
-
 /* This dictates the size of the packet
  * collection buffer. This only applies
  * if SCTP_PACKET_LOGGING is enabled in
@@ -652,16 +652,16 @@ struct sctp_error_auth_invalid_hmac {
 #define SCTP_MBCNT_LOGGING_ENABLE			0x00000200
 #define SCTP_MBUF_LOGGING_ENABLE			0x00000400
 #define SCTP_NAGLE_LOGGING_ENABLE			0x00000800
-#define SCTP_RECV_RWND_LOGGING_ENABLE			0x00001000
+#define SCTP_RECV_RWND_LOGGING_ENABLE		0x00001000
 #define SCTP_RTTVAR_LOGGING_ENABLE			0x00002000
 #define SCTP_SACK_LOGGING_ENABLE			0x00004000
-#define SCTP_SACK_RWND_LOGGING_ENABLE			0x00008000
+#define SCTP_SACK_RWND_LOGGING_ENABLE		0x00008000
 #define SCTP_SB_LOGGING_ENABLE				0x00010000
 #define SCTP_STR_LOGGING_ENABLE				0x00020000
 #define SCTP_WAKE_LOGGING_ENABLE			0x00040000
 #define SCTP_LOG_MAXBURST_ENABLE			0x00080000
 #define SCTP_LOG_RWND_ENABLE    			0x00100000
-#define SCTP_LOG_SACK_ARRIVALS_ENABLE			0x00200000
+#define SCTP_LOG_SACK_ARRIVALS_ENABLE		0x00200000
 #define SCTP_LTRACE_CHUNK_ENABLE			0x00400000
 #define SCTP_LTRACE_ERROR_ENABLE			0x00800000
 #define SCTP_LAST_PACKET_TRACING			0x01000000
