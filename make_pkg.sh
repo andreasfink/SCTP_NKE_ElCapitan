@@ -4,8 +4,12 @@ SRC_ROOT=`pwd`
 PKG_INSTALL_ROOT="${SRC_ROOT}/MacOSX_installer_root"
 PKG_INSTALL_RESOURCES="${SRC_ROOT}/MacOSX_installer_resources"
 PKG_INSTALL_SCRIPTS="${SRC_ROOT}/MacOSX_installer_scripts"
+KEY="2GSNWPNR77"
+
+#Serial of "Developer ID Installer: Andreas Fink (2GSNWPNR77)"
 SIGNING_KEY_INSTALLER="Developer ID Installer: Andreas Fink (2GSNWPNR77)"
-SIGNING_KEY_LIBRARY="Developer ID Application: Andreas Fink (2GSNWPNR77)"
+#Serial of "Developer ID Application: Andreas Fink (2GSNWPNR77)"
+SIGNING_KEY_LIBRARY="Developer ID Application: Andreas Fink (2GSNWPNR77)" 
 SIGNING_KEY_KEXT="Developer ID Application: Andreas Fink (2GSNWPNR77)"
 
 VERSION="`cat VERSION`"
@@ -17,7 +21,7 @@ rm -rf "${PKG_INSTALL_ROOT}"
 mkdir -p "${PKG_INSTALL_ROOT}"/Library/LaunchDaemons
 cp me.fink.sctp.plist  "${PKG_INSTALL_ROOT}"/Library/LaunchDaemons
 
-xcodebuild -target SCTP -configuration Debug
+xcodebuild -target SCTP -configuration Release
 pushd /tmp/SCTP.dst/Library/Extensions/
 find SCTP.kext | cpio -pdmuv "${PKG_INSTALL_ROOT}/Library/Extensions/"
 popd
@@ -27,7 +31,7 @@ pushd "${PKG_INSTALL_ROOT}/"
 tar -xvzf "${SRC_ROOT}/sctp-support.tar.gz"
 popd
 
-xcodebuild -target libsctp -configuration Debug
+xcodebuild -target libsctp -configuration Release
 install_name_tool -id @rpath/sctp.framework/Versions/A/sctp /tmp/SCTP.dst/usr/local/lib/libsctp.dylib
 
 mkdir -p "${PKG_INSTALL_ROOT}/Library/Frameworks/sctp.framework/Versions/A/Resources"
@@ -102,11 +106,8 @@ popd
 install_name_tool "${PKG_INSTALL_ROOT}"/Library/Frameworks/sctp.framework/Versions/A/sctp -change /usr/lib/libsctp.dylib @rpath/sctp.framework/Versions/A/sctp
 install_name_tool "${PKG_INSTALL_ROOT}"/Library/Frameworks/sctp.framework/Versions/A/sctp -change /usr/local/lib/libsctp.dylib @rpath/sctp.framework/Versions/A/sctp
 
-CREQ1="=designated => anchor apple generic and identifier \"me.fink.sctp.kpi.sctpsupport\"  and ((cert leaf[field.1.2.840.113635.100.6.1.9] exists) or ( certificate 1[field.1.2.840.113635.100.6.1.18] exists and certificate leaf[field.1.2.840.113635.100.6.1.13] exists and certificate leaf[subject.OU] = \"WMTUF4B7XX\"))"
-CREQ2="=designated => anchor apple generic and identifier \"me.fink.sctp.kpi.sctp\"  and ((cert leaf[field.1.2.840.113635.100.6.1.9] exists) or ( certificate 1[field.1.2.840.113635.100.6.1.18] exists and certificate leaf[field.1.2.840.113635.100.6.1.13] exists and certificate leaf[subject.OU] = \"WMTUF4B7XX\"))"
-
-/usr/bin/codesign --force --sign "${SIGNING_KEY_KEXT}" --requirements "$CREQ1" "${PKG_INSTALL_ROOT}/Library/Extensions/SCTPSupport.kext"
-/usr/bin/codesign --force --sign "${SIGNING_KEY_KEXT}" --requirements "$CREQ2" "${PKG_INSTALL_ROOT}/Library/Extensions/SCTP.kext"
+/usr/bin/codesign --force --sign "${SIGNING_KEY_KEXT}" --requirements sctpsupport.kext.rqset "${PKG_INSTALL_ROOT}/Library/Extensions/SCTPSupport.kext"
+/usr/bin/codesign --force --sign "${SIGNING_KEY_KEXT}" --requirements sctp.kext.rqset "${PKG_INSTALL_ROOT}/Library/Extensions/SCTP.kext"
 
 
 /usr/bin/codesign --force --sign "${SIGNING_KEY_LIBRARY}"  "${PKG_INSTALL_ROOT}"/Library/Frameworks/sctp.framework/Versions/A/sctp
