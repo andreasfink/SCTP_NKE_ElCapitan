@@ -14,7 +14,7 @@ SIGNING_KEY_KEXT="Developer ID Application: Andreas Fink (2GSNWPNR77)"
 
 VERSION="`cat VERSION`"
 BUILDDATE=`date +%Y%m%d%H%M`
-OUTPUT_FILE=SCTP_HighSierra_${BUILDDATE}.pkg
+OUTPUT_FILE=SCTP_Mojave_${BUILDDATE}.pkg
 echo VERSION=$VERSION
 echo OUTPUT_FILE="${OUTPUT_FILE}"
 rm -rf "${PKG_INSTALL_ROOT}"
@@ -106,11 +106,11 @@ popd
 install_name_tool "${PKG_INSTALL_ROOT}"/Library/Frameworks/sctp.framework/Versions/A/sctp -change /usr/lib/libsctp.dylib @rpath/sctp.framework/Versions/A/sctp
 install_name_tool "${PKG_INSTALL_ROOT}"/Library/Frameworks/sctp.framework/Versions/A/sctp -change /usr/local/lib/libsctp.dylib @rpath/sctp.framework/Versions/A/sctp
 
-/usr/bin/codesign --force --sign "${SIGNING_KEY_KEXT}" --requirements sctpsupport.kext.rqset "${PKG_INSTALL_ROOT}/Library/Extensions/SCTPSupport.kext"
-/usr/bin/codesign --force --sign "${SIGNING_KEY_KEXT}" --requirements sctp.kext.rqset "${PKG_INSTALL_ROOT}/Library/Extensions/SCTP.kext"
+/usr/bin/codesign --force --sign "${SIGNING_KEY_KEXT}" --timestamp --options runtime --requirements sctpsupport.kext.rqset "${PKG_INSTALL_ROOT}/Library/Extensions/SCTPSupport.kext"
+/usr/bin/codesign --force --sign "${SIGNING_KEY_KEXT}" --timestamp --options runtime --requirements sctp.kext.rqset "${PKG_INSTALL_ROOT}/Library/Extensions/SCTP.kext"
 
 
-/usr/bin/codesign --force --sign "${SIGNING_KEY_LIBRARY}"  "${PKG_INSTALL_ROOT}"/Library/Frameworks/sctp.framework/Versions/A/sctp
+/usr/bin/codesign --force --sign "${SIGNING_KEY_LIBRARY}"  --timestamp --options runtime "${PKG_INSTALL_ROOT}"/Library/Frameworks/sctp.framework/Versions/A/sctp
 cp me.fink.sctp.plist "${PKG_INSTALL_ROOT}/Library/LaunchDaemons/me.fink.sctp.plist"
 
 #$PKGMAKER --root $PKG_INSTALL_ROOT/  --out "$FILE" --id org.sctp.nke.sctp --version '"$LONGVER"' --title SCTP --install-to /  --verbose --root-volume-only --discard-forks --certificate "$SIGNING_KEY_INSTALLER"
