@@ -753,6 +753,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)";
 				INFOPLIST_FILE = "SCTP-Info.plist";
+				INSTALL_PATH = /Library/Extensions;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MODULE_NAME = org.sctp.kext.SCTP;
 				MODULE_START = SCTP_start;
@@ -807,6 +808,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)";
 				INFOPLIST_FILE = "SCTP-Info.plist";
+				INSTALL_PATH = /Library/Extensions;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MODULE_NAME = org.sctp.kext.SCTP;
 				MODULE_START = SCTP_start;
