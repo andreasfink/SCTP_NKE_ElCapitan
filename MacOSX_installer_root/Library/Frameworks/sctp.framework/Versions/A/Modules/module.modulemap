@@ -1,0 +1,5 @@
+framework module sctp {
+  umbrella header "sctp.h"
+  export *
+  module * { export * }
+}

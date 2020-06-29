@@ -14,7 +14,7 @@ SIGNING_KEY_KEXT="Developer ID Application: Andreas Fink (2GSNWPNR77)"
 
 VERSION="`cat VERSION`"
 BUILDDATE=`date +%Y%m%d%H%M`
-OUTPUT_FILE=SCTP_Mojave_${BUILDDATE}.pkg
+OUTPUT_FILE=SCTP_Catalina_${BUILDDATE}.pkg
 echo VERSION=$VERSION
 echo OUTPUT_FILE="${OUTPUT_FILE}"
 rm -rf "${PKG_INSTALL_ROOT}"

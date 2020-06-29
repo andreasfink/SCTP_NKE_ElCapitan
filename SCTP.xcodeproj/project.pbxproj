@@ -55,6 +55,7 @@
 		A6609EDA201F0D55007A6B59 /* guarded.h in Headers */ = {isa = PBXBuildFile; fileRef = A6609ED9201F0D55007A6B59 /* guarded.h */; };
 		A6609EDC201F0D68007A6B59 /* pthread_shims.h in Headers */ = {isa = PBXBuildFile; fileRef = A6609EDB201F0D68007A6B59 /* pthread_shims.h */; };
 		A6609EDE201F0D7A007A6B59 /* vm_kern.h in Headers */ = {isa = PBXBuildFile; fileRef = A6609EDD201F0D7A007A6B59 /* vm_kern.h */; };
+		A66276DD24AA826400331B5B /* priority_private.h in Headers */ = {isa = PBXBuildFile; fileRef = A66276DC24AA826400331B5B /* priority_private.h */; };
 		E06F9B92128D71A800401138 /* sctp_ss_functions.c in Sources */ = {isa = PBXBuildFile; fileRef = E06F9AD8128BF43700401138 /* sctp_ss_functions.c */; };
 /* End PBXBuildFile section */
 
@@ -172,6 +173,10 @@
 		A6609ED9201F0D55007A6B59 /* guarded.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guarded.h; path = sys/guarded.h; sourceTree = "<group>"; };
 		A6609EDB201F0D68007A6B59 /* pthread_shims.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pthread_shims.h; path = sys/pthread_shims.h; sourceTree = "<group>"; };
 		A6609EDD201F0D7A007A6B59 /* vm_kern.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vm_kern.h; path = vm/vm_kern.h; sourceTree = "<group>"; };
+		A66276DC24AA826400331B5B /* priority_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = priority_private.h; sourceTree = "<group>"; };
+		A66276E224AA844400331B5B /* refcnt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = refcnt.h; path = os/refcnt.h; sourceTree = "<group>"; };
+		A66276E324AA84BA00331B5B /* workqueue_internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = workqueue_internal.h; sourceTree = "<group>"; };
+		A66276E424AA85EB00331B5B /* refcnt_internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = refcnt_internal.h; path = os/refcnt_internal.h; sourceTree = "<group>"; };
 		A6DAA1CB2033C06100E91DAF /* sctplib-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "sctplib-Info.plist"; sourceTree = "<group>"; };
 		D2AAC0630554660B00DB518D /* libsctp.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libsctp.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		E06F9AD8128BF43700401138 /* sctp_ss_functions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sctp_ss_functions.c; path = netinet/sctp_ss_functions.c; sourceTree = "<group>"; };
@@ -209,10 +214,12 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				A66276E124AA841200331B5B /* os */,
 				509BC2301C357DD3002A13DF /* i386 */,
 				50C2D1621077EF950088259C /* SCTP.c */,
 				50BAFEA7107391A00005425A /* sctp_sys_calls.c */,
 				50C2D0AC1077B7130088259C /* kern */,
+				A66276DB24AA823000331B5B /* pthread */,
 				509BC2211C357D9C002A13DF /* net */,
 				50BAFE9E1073913B0005425A /* netinet6 */,
 				50BAFE99107391000005425A /* netinet */,
@@ -390,6 +397,24 @@
 			name = vm;
 			sourceTree = "<group>";
 		};
+		A66276DB24AA823000331B5B /* pthread */ = {
+			isa = PBXGroup;
+			children = (
+				A66276E324AA84BA00331B5B /* workqueue_internal.h */,
+				A66276DC24AA826400331B5B /* priority_private.h */,
+			);
+			path = pthread;
+			sourceTree = "<group>";
+		};
+		A66276E124AA841200331B5B /* os */ = {
+			isa = PBXGroup;
+			children = (
+				A66276E424AA85EB00331B5B /* refcnt_internal.h */,
+				A66276E224AA844400331B5B /* refcnt.h */,
+			);
+			name = os;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -401,6 +426,7 @@
 				509BC21C1C357D11002A13DF /* tree.h in Headers */,
 				509BC2321C357DE2002A13DF /* locks.h in Headers */,
 				509BC2191C357CFE002A13DF /* tty.h in Headers */,
+				A66276DD24AA826400331B5B /* priority_private.h in Headers */,
 				509BC22A1C357DB0002A13DF /* flowadv.h in Headers */,
 				509BC22F1C357DB0002A13DF /* route.h in Headers */,
 				509BC2161C357CFE002A13DF /* mcache.h in Headers */,
@@ -472,7 +498,7 @@
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 1150;
 				TargetAttributes = {
 					50BAFEAE107391E50005425A = {
 						DevelopmentTeam = 2GSNWPNR77;
@@ -486,11 +512,11 @@
 			};
 			buildConfigurationList = 1DEB914E08733D8E0010E9CD /* Build configuration list for PBXProject "SCTP" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
 				en,
+				Base,
 			);
 			mainGroup = 08FB7794FE84155DC02AAC07 /* SCTP */;
 			projectDirPath = "";
@@ -558,6 +584,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 17.0.0;
 				DEVELOPMENT_TEAM = 2GSNWPNR77;
 				ENABLE_HARDENED_RUNTIME = YES;
 				EXECUTABLE_PREFIX = lib;
@@ -577,7 +604,8 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)";
 				INFOPLIST_FILE = "$(SRCROOT)/sctplib-Info.plist";
 				INSTALL_PATH = /usr/local/lib;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 17.0.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = me.fink.sctplib;
 				PRODUCT_NAME = sctp;
@@ -593,6 +621,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 17.0.0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 2GSNWPNR77;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -611,7 +640,8 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)";
 				INFOPLIST_FILE = "$(SRCROOT)/sctplib-Info.plist";
 				INSTALL_PATH = /usr/local/lib;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 17.0.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = me.fink.sctplib;
 				PRODUCT_NAME = sctp;
@@ -660,7 +690,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)";
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -705,7 +735,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)";
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -721,6 +751,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 17.0.0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 2GSNWPNR77;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -754,7 +785,8 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)";
 				INFOPLIST_FILE = "SCTP-Info.plist";
 				INSTALL_PATH = /Library/Extensions;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 17.0.0;
 				MODULE_NAME = org.sctp.kext.SCTP;
 				MODULE_START = SCTP_start;
 				MODULE_STOP = SCTP_stop;
@@ -780,6 +812,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 17.0.0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 2GSNWPNR77;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -809,7 +842,8 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)";
 				INFOPLIST_FILE = "SCTP-Info.plist";
 				INSTALL_PATH = /Library/Extensions;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 17.0.0;
 				MODULE_NAME = org.sctp.kext.SCTP;
 				MODULE_START = SCTP_start;
 				MODULE_STOP = SCTP_stop;
