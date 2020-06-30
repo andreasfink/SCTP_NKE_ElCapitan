@@ -85,7 +85,7 @@ cat >> "${PKG_INSTALL_ROOT}/Library/Frameworks/sctp.framework/Versions/A/Resourc
 	<key>DTSDKBuild</key>
 	<string>14D125</string>
 	<key>DTSDKName</key>
-	<string>macosx10.13</string>
+	<string>macosx10.15</string>
 	<key>DTXcode</key>
 	<string>0632</string>
 	<key>DTXcodeBuild</key>
