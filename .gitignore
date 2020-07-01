@@ -2,4 +2,10 @@ build/
 SCTP.xcodeproj/xcuserdata/
 SCTP.xcodeproj/project.xcworkspace/xcuserdata/
 MacOSX_installer_root
+.DS_Store
+SCTPSupport/SCTPSupport
+SCTPSupport/sctp_support_generator
+SCTPSupport/sctp_support_generator.o
+SCTPSupport/symbols.tmp1
+SCTPSupport/symbols.tmp2
 
