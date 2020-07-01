@@ -26,10 +26,18 @@ pushd /tmp/SCTP.dst/Library/Extensions/
 find SCTP.kext | cpio -pdmuv "${PKG_INSTALL_ROOT}/Library/Extensions/"
 popd
 
-mkdir -p "${PKG_INSTALL_ROOT}/Library/Extensions"
+pushd SCTPSupport
+make
+popd
+
 pushd "${PKG_INSTALL_ROOT}/"
 tar -xvzf "${SRC_ROOT}/sctp-support.tar.gz"
 popd
+
+cp SCTPSupport/SCTPSupport/ "${PKG_INSTALL_ROOT}/Library/Extensions/SCTPSupport.kext/Contents/MacOS/SCTPSupport"
+cat SCTPSupport_Info.plist.in | sed s/@VERSION@/${VERSION}/g > "${PKG_INSTALL_ROOT}/Library/Extensions/SCTPSupport.kext/Contents/Info.plist"
+/usr/bin/codesign --force --sign "${SIGNING_KEY_KEXT}" --timestamp --options runtime --requirements sctpsupport.kext.rqset "${PKG_INSTALL_ROOT}/Library/Extensions/SCTPSupport.kext"
+
 
 xcodebuild -target libsctp -configuration Release
 install_name_tool -id @rpath/sctp.framework/Versions/A/sctp /tmp/SCTP.dst/usr/local/lib/libsctp.dylib

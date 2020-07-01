@@ -1,3 +1,5 @@
 build/
 SCTP.xcodeproj/xcuserdata/
 SCTP.xcodeproj/project.xcworkspace/xcuserdata/
+MacOSX_installer_root
+
