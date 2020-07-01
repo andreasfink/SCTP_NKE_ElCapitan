@@ -8,7 +8,6 @@ _in6_clearscope
 _in6_control
 _in6_embedscope
 _in6_recoverscope
-_in6_rtchange
 _in6_selecthlim
 _in6_sin6_2_sin
 _in6_sin_2_v4mapsin6
@@ -47,18 +46,18 @@ _ipport_lowlastauto
 _kalloc_zone
 _lck_rw_try_lock_exclusive
 _m_adj
+_m_align
 _m_copydata
 _m_copym
 _m_freem
 _m_get
 _m_gethdr
 _m_mclget
+_m_mclhasreference
 _m_mtod
 _m_pullup
 _m_split
-_m_align 
-_m_mclhasreference
-		 _nd_prefix
+_nd_prefix
 _net_add_proto
 _net_del_proto
 _proc_fdlock
@@ -99,4 +98,3 @@ _timeout
 _untimeout
 _zalloc
 _zfree
-
